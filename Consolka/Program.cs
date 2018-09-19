@@ -129,7 +129,7 @@ namespace Consolka
             LogIn(ref token);
             //CreateProject(token);
             //AddUserToProject(token);
-            DeleteProject(token);
+            DeleteProject(token); 
             //RenewCode(ref token);
             //Authorize(token);
             //ResendCode();
@@ -178,7 +178,7 @@ namespace Consolka
         {
             Console.WriteLine("Enter name: ");
             var projectName = Console.ReadLine();
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/project/create";
             request.AddJsonBody(projectName);
@@ -197,7 +197,7 @@ namespace Consolka
             var id = Console.ReadLine();
             Console.WriteLine("Enter user email: ");
             var email = Console.ReadLine();
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/project/adduser";
             request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Programmer });
@@ -214,7 +214,7 @@ namespace Consolka
         {
             Console.WriteLine("Enter project id: ");
             var projectId = Console.ReadLine();
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/project/delete";
             request.AddJsonBody(projectId);
@@ -246,7 +246,7 @@ namespace Consolka
 
         static public void CheckCode()
         {
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/confirm";
             Console.WriteLine("Enter email: ");
@@ -264,7 +264,7 @@ namespace Consolka
         static public void RenewCode(ref AccessTokenResult token)
         {
 
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/renew";
             request.AddHeader("Authorization", "Bearer " + token.Token);
@@ -293,7 +293,7 @@ namespace Consolka
             Console.WriteLine("Confirm password: ");
             var passcomf = Console.ReadLine();
 
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/register";
             request.AddJsonBody(new { Name = name, Email = mail, Password = pass, ConfirmPassword = passcomf, Surname = surname });
@@ -361,7 +361,7 @@ namespace Consolka
             var passcomf = Console.ReadLine();
 
 
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Timeout = 15000;
             request.Resource = "api/users";
@@ -400,7 +400,7 @@ namespace Consolka
 
         static public void AddRole()
         {
-            var client = new RestClient("https://localhost:44394/");
+            var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/token";
             request.AddJsonBody(new User { Name = "Samir", Email = "rufet@bcdtravel.az", Password = "ujal550313", ConfirmPassword = "ujal550313", PassHash= "ujal550313" });
