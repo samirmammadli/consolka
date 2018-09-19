@@ -1,0 +1,9 @@
+c:\users\samir\source\repos\Consolka\Consolka\bin\Debug\Consolka.exe.config
+c:\users\samir\source\repos\Consolka\Consolka\bin\Debug\Consolka.exe
+c:\users\samir\source\repos\Consolka\Consolka\bin\Debug\Consolka.pdb
+c:\users\samir\source\repos\Consolka\Consolka\bin\Debug\RestSharp.dll
+c:\users\samir\source\repos\Consolka\Consolka\obj\Debug\Consolka.csprojAssemblyReference.cache
+c:\users\samir\source\repos\Consolka\Consolka\obj\Debug\Consolka.csproj.CoreCompileInputs.cache
+c:\users\samir\source\repos\Consolka\Consolka\obj\Debug\Consolka.csproj.CopyComplete
+c:\users\samir\source\repos\Consolka\Consolka\obj\Debug\Consolka.exe
+c:\users\samir\source\repos\Consolka\Consolka\obj\Debug\Consolka.pdb
