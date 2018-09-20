@@ -116,8 +116,9 @@ namespace Consolka
 
         public enum ProjectUserRole
         {
-            Master,
-            Programmer
+            Owner = 0,
+            Master = 1,
+            Programmer = 2
         }
 
         static void Main(string[] args)
@@ -127,9 +128,9 @@ namespace Consolka
             //Register();
             //CheckCode();
             LogIn(ref token);
-            //CreateProject(token);
-            //AddUserToProject(token);
-            DeleteProject(token); 
+            CreateProject(token);
+            AddMasterToProject(token);
+            //DeleteProject(token); 
             //RenewCode(ref token);
             //Authorize(token);
             //ResendCode();
@@ -191,7 +192,7 @@ namespace Consolka
             Console.WriteLine(response.IsSuccessful);
         }
 
-        static public void AddUserToProject(AccessTokenResult result)
+        static public void AddMasterToProject(AccessTokenResult result)
         {
             Console.WriteLine("Enter Project id: ");
             var id = Console.ReadLine();
@@ -200,7 +201,7 @@ namespace Consolka
             var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/project/adduser";
-            request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Programmer });
+            request.AddJsonBody(new { UserEmail = email, ProjectId = id });
             //request.Resource = "home/index";
             if (result != null)
                 request.AddHeader("Authorization", "Bearer " + result.Token);
