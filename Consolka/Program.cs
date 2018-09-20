@@ -129,8 +129,7 @@ namespace Consolka
             //CheckCode();
             LogIn(ref token);
             //CreateProject(token);
-            AddMasterToProject(token);
-            AddProgrammerToProject(token);
+            AddUserToProject(token);
             //DeleteProject(token); 
             //RenewCode(ref token);
             //Authorize(token);
@@ -193,7 +192,7 @@ namespace Consolka
             Console.WriteLine(response.IsSuccessful);
         }
 
-        static public void AddMasterToProject(AccessTokenResult result)
+        static public void AddUserToProject(AccessTokenResult result)
         {
             Console.WriteLine("Enter Project id: ");
             var id = Console.ReadLine();
@@ -201,27 +200,8 @@ namespace Consolka
             var email = Console.ReadLine();
             var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/project/addmaster";
-            request.AddJsonBody(new { UserEmail = email, ProjectId = id });
-            //request.Resource = "home/index";
-            if (result != null)
-                request.AddHeader("Authorization", "Bearer " + result.Token);
-            var response = client.Execute(request);
-            Console.WriteLine(response.StatusCode);
-            Console.WriteLine(response.Content);
-            Console.WriteLine(response.IsSuccessful);
-        }
-
-        static public void AddProgrammerToProject(AccessTokenResult result)
-        {
-            Console.WriteLine("Enter Project id: ");
-            var id = Console.ReadLine();
-            Console.WriteLine("Enter user email: ");
-            var email = Console.ReadLine();
-            var client = new RestClient("https://mammadli.azurewebsites.net/");
-            var request = new RestRequest(Method.POST);
-            request.Resource = "api/project/addprogrammer";
-            request.AddJsonBody(new { UserEmail = email, ProjectId = id });
+            request.Resource = "api/project/adduser";
+            request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Master});
             //request.Resource = "home/index";
             if (result != null)
                 request.AddHeader("Authorization", "Bearer " + result.Token);
