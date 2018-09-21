@@ -181,7 +181,7 @@ namespace Consolka
             var projectName = Console.ReadLine();
             var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/project/create";
+            request.Resource = "api/project/add/project";
             request.AddJsonBody(projectName);
             //request.Resource = "home/index";
             if (result != null)
@@ -200,7 +200,7 @@ namespace Consolka
             var email = Console.ReadLine();
             var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/project/adduser";
+            request.Resource = "api/project/add/user";
             request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Master});
             //request.Resource = "home/index";
             if (result != null)
@@ -217,7 +217,7 @@ namespace Consolka
             var projectId = Console.ReadLine();
             var client = new RestClient("https://mammadli.azurewebsites.net/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/project/delete";
+            request.Resource = "api/project/delete/project";
             request.AddJsonBody(projectId);
             //request.Resource = "home/index";
             if (result != null)
