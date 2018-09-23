@@ -125,7 +125,7 @@ namespace Consolka
         {
 
             AccessTokenResult token = null;
-            Register();
+            //Register();
             //CheckCode();
             LogIn(ref token);
             GetProjects(token);
