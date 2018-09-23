@@ -128,8 +128,9 @@ namespace Consolka
             //Register();
             //CheckCode();
             LogIn(ref token);
+            GetProjects(token);
             //CreateProject(token);
-            AddUserToProject(token);
+           // AddUserToProject(token);
             //DeleteProject(token); 
             //RenewCode(ref token);
             //Authorize(token);
@@ -415,7 +416,7 @@ namespace Consolka
 
         static public void LogIn(ref AccessTokenResult result)
         {
-            var client = new RestClient("https://mammadli.azurewebsites.net/");//new RestClient("https://localhost:44394");
+            var client = new RestClient("https://mammadli.info/");//new RestClient("https://mammadli.azurewebsites.net/");//new RestClient("https://localhost:44394");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/login";
             Console.WriteLine("Enter email: ");
@@ -434,17 +435,99 @@ namespace Consolka
             var obj = ser.Deserialize<AccessTokenResult>(response);
             result = obj;
         }
+
+        static public void GetProjects(AccessTokenResult result)
+        {
+            var client = new RestClient("https://mammadli.azurewebsites.net/");//new RestClient("https://localhost:44394"); 
+            var request = new RestRequest(Method.GET);
+            request.Resource = "api/project";
+            request.AddHeader("Authorization", "Bearer " + result.Token);
+            var response = client.Execute(request);
+
+            Console.WriteLine(response.StatusCode);
+            Console.WriteLine(response.Content);
+            Console.WriteLine(response.IsSuccessful);
+
+            if (response.StatusCode != HttpStatusCode.OK) return;
+            var ser = new JsonDeserializer();
+            var obj = ser.Deserialize<List<Project>>(response);
+            foreach (var item in obj)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+
+
+
+    }
+
+    public class Project
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreationDate { get; set; }
+        public List<Column> Columns { get; set; }
+        public List<Sprint> Sprints { get; set; }
+        public List<Role> Roles { get; set; }
+
+        public Project()
+        {
+            Roles = new List<Role>();
+            Sprints = new List<Sprint>();
+            Columns = new List<Column>();
+        }
+    }
+
+    public class Column
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public short ColumnType { get; set; }
+        public Project Project { get; set; }
+        public Sprint Sprint { get; set; }
+        public List<Card> Cards { get; set; }
+
+        public Column()
+        {
+            Cards = new List<Card>();
+        }
+    }
+
+    public class Sprint
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Project Project { get; set; }
+        public DateTime ExpireDate { get; set; }
+        public List<Column> Columns { get; set; } = new List<Column>();
+    }
+
+    public class Role
+    {
+        public int Id { get; set; }
+        public ProjectUserRole Type { get; set; }
+        public User User { get; set; }
+        public Project Project { get; set; }
+    }
+
+    public enum ProjectUserRole
+    {
+        Owner = 0,
+        Master = 1,
+        Programmer = 2
     }
 
     public class Card
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public string Description { get; set; }
-        public int Score { get; set; }
-        public DateTime ExpireDate { get; set; }
-        public string Color { get; set; }
-    }
+        public User User { get; set; }
+        public Column Column { get; set; }
+        public Card()
+        {
+
+        }
+    }   
 
     public class User
     {
