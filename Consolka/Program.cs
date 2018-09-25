@@ -128,10 +128,10 @@ namespace Consolka
             //Register();
             //CheckCode();
             LogIn(ref token);
-            GetProjects(token);
-            //CreateProject(token);
-           // AddUserToProject(token);
             //DeleteProject(token); 
+            //CreateProject(token);
+            GetProjects(token);
+            //AddUserToProject(token);
             //RenewCode(ref token);
             //Authorize(token);
             //ResendCode();
@@ -445,15 +445,19 @@ namespace Consolka
             var response = client.Execute(request);
 
             Console.WriteLine(response.StatusCode);
-            Console.WriteLine(response.Content);
+            //Console.WriteLine(response.Content);
             Console.WriteLine(response.IsSuccessful);
 
             if (response.StatusCode != HttpStatusCode.OK) return;
             var ser = new JsonDeserializer();
             var obj = ser.Deserialize<List<Project>>(response);
+            Console.WriteLine("------------------------------------------------------------");
             foreach (var item in obj)
             {
-                Console.WriteLine(item.Name);
+                Console.WriteLine($"Id: {item.Id}" +
+                    $"\nName: {item.Name}" +
+                    $"\nData: {item.CreationDate}");
+                Console.WriteLine("------------------------------------------------------------");
             }
         }
 
