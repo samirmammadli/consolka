@@ -126,13 +126,13 @@ namespace Consolka
 
             AccessTokenResult token = null;
             //Register();
+            //ResendCode();
             //CheckCode();
             LogIn(ref token);
             //DeleteProject(token); 
             //CreateProject(token);
-            GetProjects(token);
+            //GetProjects(token);
             //AddUserToProject(token);
-            //RenewCode(ref token);
             //Authorize(token);
             //ResendCode();
             //AddRole();
@@ -250,7 +250,7 @@ namespace Consolka
         {
             var client = new RestClient("https://mammadli.info/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/account/confirm";
+            request.Resource = "api/account/registration/confirm";
             Console.WriteLine("Enter email: ");
             var mail = Console.ReadLine();
             Console.WriteLine("Enter registration code: ");
@@ -297,7 +297,7 @@ namespace Consolka
 
             var client = new RestClient("https://mammadli.info/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/account/register";
+            request.Resource = "api/account/registration";
             request.AddJsonBody(new { Name = name, Email = mail, Password = pass, ConfirmPassword = passcomf, Surname = surname });
             var response = client.Execute(request);
             Console.WriteLine(response.StatusCode);
@@ -322,9 +322,9 @@ namespace Consolka
 
         static public void ResendCode()
         {
-            var client = new RestClient("https://localhost:44394");
+            var client = new RestClient("https://mammadli.info/");
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/account/resend";
+            request.Resource = "api/account/registration/resend_code";
             Console.WriteLine("Enter email: ");
             var email = Console.ReadLine();
             request.AddJsonBody(email);
@@ -426,9 +426,11 @@ namespace Consolka
             request.AddJsonBody(new { email = mail, password = pass });
             var response = client.Execute(request);
 
-            Console.WriteLine(response.StatusCode);
-            Console.WriteLine(response.Content);
-            Console.WriteLine(response.IsSuccessful);
+            
+            if (!response.IsSuccessful)
+                Console.WriteLine($"Error code: {response.Content}");
+            else
+                Console.WriteLine("Success!");
 
             if (response.StatusCode != HttpStatusCode.OK) return;
             var ser = new JsonDeserializer();
