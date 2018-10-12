@@ -127,8 +127,8 @@ namespace Consolka
             AccessTokenResult token = null;
             //Register();
             //ResendCode();
-            //CheckCode();
-            LogIn(ref token);
+            CheckCode();
+            //LogIn(ref token);
             //DeleteProject(token); 
             //CreateProject(token);
             //GetProjects(token);
@@ -248,7 +248,7 @@ namespace Consolka
 
         static public void CheckCode()
         {
-            var client = new RestClient("https://mammadli.info/");
+            var client = new RestClient("https://localhost:44394/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/registration/confirm";
             Console.WriteLine("Enter email: ");
