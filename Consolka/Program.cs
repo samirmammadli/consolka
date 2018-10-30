@@ -3,6 +3,7 @@ using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -77,7 +78,7 @@ namespace Consolka
                     {
                         Console.WriteLine("Attempting to send email...");
                         await client.SendMailAsync(message);
-                        
+
                         Console.WriteLine("Email sent!");
                     }
                     catch (Exception ex)
@@ -124,10 +125,42 @@ namespace Consolka
         static void Main(string[] args)
         {
 
-            AccessTokenResult token = null;
+            var file = File.ReadAllBytes(@"D:\Downloads\git.exe");
+
+            var chunkSize = file.Length / 100;
+
+            IEnumerable<byte> buff = new List<byte>();
+
+            IEnumerable<byte> dest = new List<byte>(file.Length);
+
+            var dw = dest as List<byte>;
+
+            byte x = 0;
+           // using (var ms = new MemoryStream(dest))
+           // {
+            for (int i = 0; i < file.Length - chunkSize; i += chunkSize)
+                {
+                    buff = file.Skip(i).Take(chunkSize);
+                x = buff.First();
+                    //dw.AddRange(buff);
+                    //Buffer.BlockCopy(file, i, dest, i, chunkSize);
+
+                    //ms.Write(buff, 0, chunkSize);
+                }
+            //}
+
+            Console.WriteLine(file[file.Length - 1000]);
+
+            //Console.WriteLine(dest.ToList()[file.Length - 1000]);
+
+
+
+
+
+            //AccessTokenResult token = null;
             //Register();
             //ResendCode();
-            CheckCode();
+            //CheckCode();
             //LogIn(ref token);
             //DeleteProject(token); 
             //CreateProject(token);
@@ -202,7 +235,7 @@ namespace Consolka
             var client = new RestClient("https://mammadli.info/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/project/add/user";
-            request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Master});
+            request.AddJsonBody(new { UserEmail = email, ProjectId = id, Role = ProjectUserRole.Master });
             //request.Resource = "home/index";
             if (result != null)
                 request.AddHeader("Authorization", "Bearer " + result.Token);
@@ -328,7 +361,7 @@ namespace Consolka
             Console.WriteLine("Enter email: ");
             var email = Console.ReadLine();
             request.AddJsonBody(email);
-            var response  = client.Execute(request);
+            var response = client.Execute(request);
             Console.WriteLine(response.StatusCode);
             Console.WriteLine(response.Content);
             Console.WriteLine(response.IsSuccessful);
@@ -338,7 +371,7 @@ namespace Consolka
         {
             var client = new RestClient("http://localhost:53117/");
             var request = new RestRequest(Method.GET);
-            request.Resource = "api/cards"; 
+            request.Resource = "api/cards";
             var response = client.Execute(request);
             var ser = new JsonDeserializer();
             var obj = ser.Deserialize<List<Card>>(response);
@@ -367,7 +400,7 @@ namespace Consolka
             var request = new RestRequest(Method.POST);
             request.Timeout = 15000;
             request.Resource = "api/users";
-            request.AddJsonBody(new User { Name = name, Email = mail, Password = pass, ConfirmPassword = passcomf, PassHash = pass, Role = "admin" } );
+            request.AddJsonBody(new User { Name = name, Email = mail, Password = pass, ConfirmPassword = passcomf, PassHash = pass, Role = "admin" });
             var response = client.Execute(request);
             Console.WriteLine(response.StatusCode);
             Console.WriteLine(response.Content);
@@ -405,7 +438,7 @@ namespace Consolka
             var client = new RestClient("https://mammadli.info/");
             var request = new RestRequest(Method.POST);
             request.Resource = "api/account/token";
-            request.AddJsonBody(new User { Name = "Samir", Email = "rufet@bcdtravel.az", Password = "ujal550313", ConfirmPassword = "ujal550313", PassHash= "ujal550313" });
+            request.AddJsonBody(new User { Name = "Samir", Email = "rufet@bcdtravel.az", Password = "ujal550313", ConfirmPassword = "ujal550313", PassHash = "ujal550313" });
             var response = client.Execute(request);
             var ww = request.JsonSerializer.Serialize(new User { Name = "Samir", Email = "rufet@bcdtravel.az", Password = "ujal550313", ConfirmPassword = "ujal550313", PassHash = "ujal550313" });
             Console.WriteLine(ww);
@@ -426,7 +459,7 @@ namespace Consolka
             request.AddJsonBody(new { email = mail, password = pass });
             var response = client.Execute(request);
 
-            
+
             if (!response.IsSuccessful)
                 Console.WriteLine($"Error code: {response.Content}");
             else
@@ -533,7 +566,7 @@ namespace Consolka
         {
 
         }
-    }   
+    }
 
     public class User
     {
